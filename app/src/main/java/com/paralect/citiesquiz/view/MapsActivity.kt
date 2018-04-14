@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.google.android.gms.maps.GoogleMap
@@ -37,6 +38,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
         presenter.loadGame()
     }
 
+    // region Menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    // endregion
+
     // region Map
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -53,7 +66,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
         binding.placeButton.setOnClickListener {
             if (presenter.isLoaded()) {
                 val center = mMap.cameraPosition.target
-                mMap.clear()
                 presenter.setUsersCoordinate(center)
             }
         }
@@ -62,11 +74,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
 
     // region IGameView
     override fun onLevelLoaded(level: GameLevel) {
-        binding.taskTextview.text = level.details
+        binding.statusTextview.text = level.details
     }
 
     override fun onGameResult(result: GameResult) {
-        binding.taskTextview.text = result.toString()
+        binding.statusTextview.text = result.toString()
     }
 
     override fun onError(e: Throwable) {

@@ -38,6 +38,7 @@ dependencies {
     implementation deps.rxJava
     implementation deps.rxAndroid
     implementation deps.gson
+    implementation deps.cardView
 
     kapt deps.dataBinding
 
