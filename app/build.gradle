@@ -1,10 +1,14 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
+
+    dataBinding {
+        enabled = true
+    }
+
     compileSdkVersion compileSdkVer
     defaultConfig {
         applicationId "com.paralect.citiesquiz"
@@ -29,10 +33,13 @@ dependencies {
 
     implementation deps.kotlinJRE
     implementation deps.appCompatSupport
+    implementation deps.constraintLayout
     implementation deps.maps
     implementation deps.rxJava
     implementation deps.rxAndroid
     implementation deps.gson
+
+    kapt deps.dataBinding
 
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
