@@ -8,10 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.paralect.citiesquiz.R
 import com.paralect.citiesquiz.data.model.GameLevel
 import com.paralect.citiesquiz.data.model.GameResult
@@ -58,6 +61,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
         mMap = googleMap
         mMap.setMaxZoomPreference(15f)
 
+        // show Berlin
+        val berlin = LatLng(52.520008, 13.404954)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(berlin))
+
         try {
             val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
             if (!success)
@@ -68,6 +75,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
 
         binding.placeButton.setOnClickListener {
             if (presenter.isLoaded()) {
+                mMap.clear()
+                val realCoordinate = presenter.getRealCoordinate()
+                realCoordinate?.let { mMap.addMarker(MarkerOptions().position(realCoordinate).title("Correct Place")) }
                 val center = mMap.cameraPosition.target
                 presenter.setUsersCoordinate(center)
             }
@@ -83,7 +93,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
     }
 
     override fun onGameResult(result: GameResult) {
-        binding.statusTextview.text = "Finished"
+        binding.statusTextview.text = getString(R.string.finished)
         binding.countTextview.text = result.correctCities.toString()
         binding.kmTextview.text = result.getRealDistance()
     }

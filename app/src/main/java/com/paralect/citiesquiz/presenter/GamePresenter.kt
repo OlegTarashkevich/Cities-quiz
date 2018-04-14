@@ -117,4 +117,6 @@ class GamePresenter() : IGamePresenter {
             }
         }
     }
+
+    fun getRealCoordinate() = currentLevel?.city?.coordinate
 }

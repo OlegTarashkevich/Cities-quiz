@@ -2,4 +2,5 @@
     <string name="app_name">CITIES QUIZ</string>
     <string name="task_details">Select the location of %s</string>
     <string name="place">place</string>
+    <string name="finished">Finished</string>
 </resources>
