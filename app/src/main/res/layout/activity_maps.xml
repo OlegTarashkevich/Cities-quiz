@@ -27,10 +27,20 @@
         tools:context="com.paralect.citiesquiz.view.MapsActivity"/>
 
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/progress_bar"
         android:layout_width="@dimen/progress_bar_size"
         android:layout_height="@dimen/progress_bar_size"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/round_button_selector_green"
+        android:text="@string/place"
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>

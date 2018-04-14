@@ -51,7 +51,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.setMaxZoomPreference(15f)
-        
+
         try {
             val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
             if (!success)
@@ -61,8 +61,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
         }
 
         mMap.setOnMapClickListener {
-            mMap.addMarker(MarkerOptions().position(it).title("Your choice"))
-            presenter.setUsersCoordinate(it)
+            if (presenter.isLoaded()) {
+                mMap.clear()
+                mMap.addMarker(MarkerOptions().position(it).title("Your choice"))
+                presenter.setUsersCoordinate(it)
+            }
         }
     }
     // endregion
@@ -78,7 +81,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
 
     override fun onError(e: Throwable) {
         e.printStackTrace()
-        Toast.makeText(this, e.toString(), LENGTH_SHORT).show()
+        Toast.makeText(this, e.message, LENGTH_SHORT).show()
         onShowProgress(false)
     }
 

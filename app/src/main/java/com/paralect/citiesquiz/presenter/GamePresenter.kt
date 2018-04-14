@@ -105,7 +105,7 @@ class GamePresenter() : IGamePresenter {
 
     fun resetGame() {
         levels.clear()
-        currentLevel == null
+        currentLevel = null
     }
 
     fun setUsersCoordinate(coordinate: LatLng) {
