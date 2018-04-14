@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
@@ -39,12 +40,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
     }
 
     // region Menu
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true;
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-
-
-            }
+            R.id.action_refresh -> presenter.loadGame()
         }
         return super.onOptionsItemSelected(item)
     }

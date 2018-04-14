@@ -39,7 +39,7 @@ class GamePresenter() : IGamePresenter {
     }
 
     override fun loadGame() {
-        if (isLoaded()) return
+//        if (isLoaded()) return
         if (!Utils.hasNetwork(App.app)) {
             mDataView?.onError(RuntimeException("Please enable network"))
         }
@@ -58,6 +58,7 @@ class GamePresenter() : IGamePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    cities.clear()
                     cities.addAll(it)
                     loadNextGameLevel()
                     mDataView?.onShowProgress(false)
