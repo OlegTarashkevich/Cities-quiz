@@ -43,6 +43,8 @@ class GamePresenter() : IGamePresenter {
         if (!Utils.hasNetwork(App.app)) {
             mDataView?.onError(RuntimeException("Please enable network"))
         }
+        
+        resetGame()
         mDataView?.onShowProgress(true)
         DataUtil().getResponseFromResObservable(App.app, CapitalsPack::class.java, R.raw.capital_cities)
                 .toFlowable()
@@ -104,9 +106,10 @@ class GamePresenter() : IGamePresenter {
 
     fun isLoaded() = cities.isNotEmpty()
 
-    fun resetGame() {
+    private fun resetGame() {
         levels.clear()
         currentLevel = null
+        gameDistance = START_DISTANCE
     }
 
     fun setUsersCoordinate(coordinate: LatLng) {
