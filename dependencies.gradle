@@ -24,6 +24,7 @@ ext {
     butterKnifeVersion = '8.5.1'
     rxJavaVersion = '2.1.7'
     rxAndroidVersion = '2.0.1'
+    gsonVersion = '2.8.2'
     retrofitVersion = '2.3.0'
     okHttp3Version = '3.8.1'
     javaxAnnotationVersion = '1.0'
@@ -84,11 +85,11 @@ ext {
             eventBus            : "org.greenrobot:eventbus:${eventBusVersion}",
             multidex            : "com.android.support:multidex:${multidexVersion}",
 
+            gson               : "com.google.code.gson:gson:${gsonVersion}",
             retrofit            : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitMock        : "com.squareup.retrofit2:retrofit-mock:${retrofitVersion}",
             converterGson       : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             retrofitRxJava      : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
-//            retrofitRxJava     : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
             okHttp3             : "com.squareup.okhttp3:okhttp:${okHttp3Version}",
             loggingInterceptor  : "com.squareup.okhttp3:logging-interceptor:${okHttp3Version}",
             picasso             : "com.squareup.picasso:picasso:${picassoVersion}",

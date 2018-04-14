@@ -1,16 +1,21 @@
-package com.paralect.citiesquiz
+package com.paralect.citiesquiz.view
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-
+import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.paralect.citiesquiz.R
+import com.paralect.citiesquiz.data.model.City
+import com.paralect.citiesquiz.presenter.CitiesPresenter
+import com.paralect.citiesquiz.presenter.IDataView
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IDataView<List<City>> {
+
+    private val presenter = CitiesPresenter()
 
     private lateinit var mMap: GoogleMap
 
@@ -21,6 +26,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        presenter.setDataView(this)
+        presenter.requestData(Unit)
     }
 
     /**
@@ -39,5 +47,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    override fun onDataReceived(cities: List<City>) {
+
     }
 }

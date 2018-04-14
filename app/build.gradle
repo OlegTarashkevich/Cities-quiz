@@ -30,6 +30,9 @@ dependencies {
     implementation deps.kotlinJRE
     implementation deps.appCompatSupport
     implementation deps.maps
+    implementation deps.rxJava
+    implementation deps.rxAndroid
+    implementation deps.gson
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
