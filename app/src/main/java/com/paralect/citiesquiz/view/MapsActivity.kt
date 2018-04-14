@@ -59,12 +59,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
     // region Map
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setMaxZoomPreference(15f)
 
         // show Berlin
         val berlin = LatLng(52.520008, 13.404954)
         mMap.moveCamera(CameraUpdateFactory.newLatLng(berlin))
-
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(3.0f))
+        
         try {
             val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
             if (!success)
