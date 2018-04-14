@@ -1,55 +1,76 @@
 package com.paralect.citiesquiz.view
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
+import android.widget.TextView
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.paralect.citiesquiz.R
-import com.paralect.citiesquiz.data.model.City
-import com.paralect.citiesquiz.presenter.CitiesPresenter
-import com.paralect.citiesquiz.presenter.IDataView
+import com.paralect.citiesquiz.data.model.GameLevel
+import com.paralect.citiesquiz.presenter.GamePresenter
+import com.paralect.citiesquiz.presenter.IGameView
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IDataView<List<City>> {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
 
-    private val presenter = CitiesPresenter()
+    companion object {
+        val TAG = MapsActivity::class.java.simpleName
+    }
+
+    private val presenter = GamePresenter()
 
     private lateinit var mMap: GoogleMap
+    private lateinit var mStatusTextView: TextView
+    private lateinit var taskTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+
+        mStatusTextView = findViewById(R.id.status_textview)
+        taskTextView = findViewById(R.id.task_textview)
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        presenter.setDataView(this)
-        presenter.requestData(Unit)
+        presenter.setGameView(this)
+        presenter.loadGame()
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.setMaxZoomPreference(15f)
+        
+        try {
+            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+            if (!success)
+                onError(RuntimeException("Style parsing failed."))
+        } catch (e: Resources.NotFoundException) {
+            onError(e)
+        }
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.setOnMapClickListener {
+            mMap.addMarker(MarkerOptions().position(it).title("Your choice"))
+            presenter.setUsersCoordinate(it)
+        }
     }
 
-    override fun onDataReceived(cities: List<City>) {
-
+    // region IGameView
+    override fun onLevelLoaded(level: GameLevel) {
+        taskTextView.text = level.details
     }
+
+    override fun onGameOver() {
+        taskTextView.text = "Game Over"
+    }
+
+    override fun onError(e: Throwable) {
+        e.printStackTrace()
+        Toast.makeText(this, e.toString(), LENGTH_SHORT).show()
+    }
+    // endregion
 }

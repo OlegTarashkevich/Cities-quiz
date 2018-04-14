@@ -3,7 +3,9 @@ package com.paralect.citiesquiz.presenter
 /**
  * Created by Oleg Tarashkevich on 14/04/2018.
  */
-interface IDataView<in DATA> {
+interface IGamePresenter {
 
-    fun onDataReceived(data: DATA)
+    fun setGameView(view: IGameView)
+
+    fun loadGame()
 }
