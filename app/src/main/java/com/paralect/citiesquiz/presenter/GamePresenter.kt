@@ -80,13 +80,13 @@ class GamePresenter() : IGamePresenter {
         Single.create<GameResult> {
             try {
                 if (!it.isDisposed) {
-                    var correctNumber = 0
+                    var correctCities = 0
                     var totalDistance = 0f
                     levels.forEach {
-                        if (it.correct) correctNumber = correctNumber.plus(1)
+                        if (it.correct) correctCities = correctCities.plus(1)
                         totalDistance = totalDistance.plus(it.distance)
                     }
-                    val gameResult = GameResult(totalDistance, correctNumber)
+                    val gameResult = GameResult(totalDistance, correctCities, levels.size)
                     it.onSuccess(gameResult)
                 }
             } catch (e: Throwable) {
@@ -116,7 +116,7 @@ class GamePresenter() : IGamePresenter {
             val distance = Utils.getDistance(coordinate, it.city.coordinate!!) / 1000
             it.distance = distance
             it.correct = it.distance <= ALLOWED_DISTANCE
-            levels.plus(it)
+            levels.add(it)
             gameDistance = gameDistance.minus(distance)
             if (gameDistance > 0)
                 loadNextGameLevel()
