@@ -10,9 +10,11 @@ interface IGameView {
 
     fun onShowProgress(show: Boolean)
 
-    fun onLevelLoaded(level: GameLevel)
+    fun onLevelLoaded(level: GameLevel, result: GameResult)
 
     fun onGameResult(result: GameResult)
 
     fun onError(e: Throwable)
+
+    fun onMessage(message: String)
 }

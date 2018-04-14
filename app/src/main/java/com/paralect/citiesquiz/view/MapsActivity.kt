@@ -76,12 +76,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
     // endregion
 
     // region IGameView
-    override fun onLevelLoaded(level: GameLevel) {
+    override fun onLevelLoaded(level: GameLevel, result: GameResult) {
         binding.statusTextview.text = level.details
+        binding.countTextview.text = result.correctCities.toString()
+        binding.kmTextview.text = result.getRealDistance()
     }
 
     override fun onGameResult(result: GameResult) {
-        binding.statusTextview.text = result.toString()
+        binding.statusTextview.text = "Finished"
+        binding.countTextview.text = result.correctCities.toString()
+        binding.kmTextview.text = result.getRealDistance()
     }
 
     override fun onError(e: Throwable) {
@@ -92,6 +96,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IGameView {
 
     override fun onShowProgress(show: Boolean) {
         binding.progressBar.setVisibile(show)
+    }
+
+    override fun onMessage(message: String) {
+        Toast.makeText(this, message, LENGTH_SHORT).show()
     }
     // endregion
 }
